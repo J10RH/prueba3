@@ -36,34 +36,32 @@ if file:
 
     plot_type = st.sidebar.radio("Tipo de gráfico", ["Dispersión", "Boxplot", "Barras", "Distribución", "Ajuste"])
 
-    fig, ax = plt.subplots()
-    plt.rcParams['text.usetex'] = True
-    plt.rcParams['font.family'] = 'serif'
+   fig, ax = plt.subplots()
+# plt.rcParams['text.usetex'] = True  # ¡ELIMINAR o comentar esta línea!
+plt.rcParams['font.family'] = 'serif'
 
-    if plot_type == "Dispersión":
-        sns.scatterplot(data=df, x=selected_x, y=selected_y, ax=ax)
-        ax.set_title(r"Gr\'afico de Dispersi\'on")
+if plot_type == "Dispersión":
+    sns.scatterplot(data=df, x=selected_x, y=selected_y, ax=ax)
+    ax.set_title("Gráfico de Dispersión")
 
-    elif plot_type == "Boxplot":
-        sns.boxplot(data=df[[selected_x, selected_y]], ax=ax)
-        ax.set_title(r"Boxplot")
+elif plot_type == "Boxplot":
+    sns.boxplot(data=df[[selected_x, selected_y]], ax=ax)
+    ax.set_title("Boxplot")
 
-    elif plot_type == "Barras":
-        mean_vals = df.groupby(selected_x)[selected_y].mean().reset_index()
-        sns.barplot(data=mean_vals, x=selected_x, y=selected_y, ax=ax)
-        ax.set_title(r"Gr\'afico de Barras")
+elif plot_type == "Barras":
+    mean_vals = df.groupby(selected_x)[selected_y].mean().reset_index()
+    sns.barplot(data=mean_vals, x=selected_x, y=selected_y, ax=ax)
+    ax.set_title("Gráfico de Barras")
 
-    elif plot_type == "Distribución":
-        sns.histplot(df[selected_y], kde=True, ax=ax)
-        ax.set_title(r"Distribuci\'on de " + selected_y)
+elif plot_type == "Distribución":
+    sns.histplot(df[selected_y], kde=True, ax=ax)
+    ax.set_title("Distribución de " + selected_y)
 
-    elif plot_type == "Ajuste":
-        sns.regplot(data=df, x=selected_x, y=selected_y, ax=ax)
-        ax.set_title(r"Ajuste Lineal")
+elif plot_type == "Ajuste":
+    sns.regplot(data=df, x=selected_x, y=selected_y, ax=ax)
+    ax.set_title("Ajuste Lineal")
 
-    ax.set_xlabel(r"$" + selected_x + r"$")
-    ax.set_ylabel(r"$" + selected_y + r"$")
-    st.pyplot(fig)
+ax.set_xlabel(selected_x)
+ax.set_ylabel(selected_y)
+st.pyplot(fig)
 
-    st.subheader("Estadísticas Descriptivas")
-    st.write(df.describe())
